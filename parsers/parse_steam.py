@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
-import urllib
+import urllib2
 import time
 from random import randint
 
@@ -64,7 +64,9 @@ def parse_entry(entry):
 
 def get_soup(url):
 
-    f = urllib.urlopen(url)
+    req = urllib2.Request(url)
+    req.add_header('User-agent', 'hikaku-bot[0.1]@github.com/ardinor')
+    f = urllib2.urlopen(req)
     if f.getcode() != 404:
         html = f.read()
         return BeautifulSoup(html)

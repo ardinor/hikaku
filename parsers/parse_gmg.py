@@ -12,7 +12,7 @@ HOT_DEALS_URL = 'http://www.greenmangaming.com/hot-deals/'
 MIDWEEK_DEALS_URL = 'http://www.greenmangaming.com/midweek-deals/'
 BARGAIN_BUCKET_URL = 'http://www.greenmangaming.com/bargain-bucket/'
 
-#hot_deals = http://www.greenmangaming.com/games/browse/hot-deals/?page=3   ??? 検索
+#hot_deals = http://www.greenmangaming.com/games/browse/hot-deals/?page=3   ???
 
 
 def parse_entry(entry):
@@ -79,7 +79,7 @@ def parse_hero_row(soup):
 def get_soup(url):
 
     req = urllib2.Request(url)
-    req.add_header('User-agent', 'Hikaku-chan')
+    req.add_header('User-agent', 'hikaku-bot[0.1]@github.com/ardinor')
     f = urllib2.urlopen(req)
     if f.getcode() != 404:
         html = f.read()
