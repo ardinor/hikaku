@@ -40,9 +40,9 @@ def full_check():
 
 def specials_check():
 
-    parse_steam.specials_check()
-    #parse_gg.specials_check()
-    parse_gmg.specials_check()
+    #parse_steam.specials_check()
+    parse_gg.full_check()
+    #parse_gmg.specials_check()
 
 if __name__ == '__main__':
 

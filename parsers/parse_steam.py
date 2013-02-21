@@ -3,12 +3,13 @@ import time
 from random import randint
 
 from get_soup import get_soup
+from config import STEAM_URLS
 
-base_url = 'http://store.steampowered.com/search/?sort_by=&sort_order=ASC&page='
+#base_url = 'http://store.steampowered.com/search/?sort_by=&sort_order=ASC&page='
 
-GAMES_URL = 'http://store.steampowered.com/search/?category1=998&page='
-DLC_URL = 'http://store.steampowered.com/search/?category1=21&page='
-SPECIALS_URL = 'http://store.steampowered.com/search/?specials=1&page='
+#GAMES_URL = 'http://store.steampowered.com/search/?category1=998&page='
+#DLC_URL = 'http://store.steampowered.com/search/?category1=21&page='
+#SPECIALS_URL = 'http://store.steampowered.com/search/?specials=1&page='
 
 
 def parse_entry(entry):
@@ -24,23 +25,11 @@ def parse_entry(entry):
             print 'Mac'
         elif 'platform_win' in i.get('src'):
             print 'Win'
-    #if entry.p.find(class_='platform_img'):
-    #    platform_img_src = entry.p.find(class_='platform_img').attrs['src']
-    #    if 'platform_win' in platform_img_src:
-    #        print 'Windows'
-    #    elif 'platform_steamplay' in platform_img_src:
-    #        print 'Steamplay'
     t = entry.p.get_text().strip()
     categories = t[:t.find('-')].strip().split(', ')
     print categories
     released = entry.find(class_='col search_released').text
     print 'Released {}'.format(released)
-    # if t.find('Released') >= 0:
-    #     released = t[t.find('Released') + 10:]
-    #     print 'Released: %s' % released
-    # elif t.find('Available') >= 0:
-    #     released = t[t.find('Available') + 11:]
-    #     print 'Available: %s' % released
     metascore = entry.find(class_='col search_metascore').text
     print 'Metascore {}'.format(metascore)
     t = entry.find(class_='col search_price')
@@ -66,8 +55,8 @@ def full_check():
 
     pages = {}
 
-    for i in [GAMES_URL, DLC_URL]:
-        url = i + '1'
+    for i in [STEAM_URLS['GAMES_URL'], STEAM_URLS['DLC_URL']]:
+        url = i.format('1')
         soup = get_soup(url)
         if soup:
             search_pag = soup.find(class_='search_pagination_right')
@@ -79,7 +68,7 @@ def full_check():
 
     #for i, j in pages.iteritems():
     #    for m in xrange(1, j + 1):
-    #        url = i + str(m)
+    #        url = i.format(str(m))
     #        soup = get_soup(url)
     #        if soup:
     #            for n in soup.find_all(class_='search_result_row'):
@@ -89,7 +78,7 @@ def full_check():
 
 def specials_check():
 
-    soup = get_soup(SPECIALS_URL)
+    soup = get_soup(STEAM_URLS['SPECIALS_URL'])
     if soup:
         search_pag = soup.find(class_='search_pagination_right')
         search_a = search_pag.find_all('a')
@@ -100,14 +89,3 @@ if __name__ == '__main__':
 
     full_check()
     specials_check()
-
-        # for i in xrange(3):
-        #     url = games_url + str(i + 1)
-        #     print '\n\n%s' % url
-        #     f = urllib.urlopen(url)
-        #     html = f.read()
-        #     soup = BeautifulSoup(html)
-        #     for i in soup.find_all(class_='search_result_row'):
-        #         parse_entry(i)
-
-        #     time.sleep(3)

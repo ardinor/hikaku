@@ -4,13 +4,14 @@ import time
 from random import randint
 
 from get_soup import get_soup
+from config import GREENMAN_URLS
 
-ALL_URL = 'http://www.greenmangaming.com/search/?q=&page='
-BASE_URL = 'http://www.greenmangaming.com/'
+#ALL_URL = 'http://www.greenmangaming.com/search/?q=&page='
+#BASE_URL = 'http://www.greenmangaming.com/'
 
-HOT_DEALS_URL = 'http://www.greenmangaming.com/hot-deals/'
-MIDWEEK_DEALS_URL = 'http://www.greenmangaming.com/midweek-deals/'
-BARGAIN_BUCKET_URL = 'http://www.greenmangaming.com/bargain-bucket/'
+#HOT_DEALS_URL = 'http://www.greenmangaming.com/hot-deals/'
+#MIDWEEK_DEALS_URL = 'http://www.greenmangaming.com/midweek-deals/'
+#BARGAIN_BUCKET_URL = 'http://www.greenmangaming.com/bargain-bucket/'
 
 #hot_deals = http://www.greenmangaming.com/games/browse/hot-deals/?page=3   ???
 
@@ -19,7 +20,7 @@ def parse_entry(entry):
 
     title = entry.h2.text.strip()
     print title
-    url = BASE_URL + entry.a.get('href').strip()
+    url = GREENMAN_URLS['BASE_URL'] + entry.a.get('href').strip()
     print url
     cover_url = entry.a.img.get('src').strip()
     print cover_url
@@ -40,7 +41,7 @@ def parse_product_row(soup):
     for i in soup.find_all(class_='product-row'):
         ul = i.ul
         for j in ul.find_all('li', recuvsive=False):
-            url = BASE_URL + j.a.get('href').strip()
+            url = GREENMAN_URLS['BASE_URL'] + j.a.get('href').strip()
             cover_url = j.a.img.get('src')
             title = j.a.get('title').strip()
             current_price = j.find(class_='curPrice').text.strip()
@@ -59,7 +60,7 @@ def parse_hero_row(soup):
 
     for i in soup.find_all(class_='hero'):
         inner = i.find(class_='inner')
-        url = BASE_URL + inner.a.get('href').strip()
+        url = GREENMAN_URLS['BASE_URL'] + inner.a.get('href').strip()
         cover_url = inner.a.img.get('src')
         #title = inner.find(class_='title').text
         title = inner.a.img.get('alt')
@@ -78,7 +79,7 @@ def parse_hero_row(soup):
 
 def full_check():
 
-    url = ALL_URL + '1'
+    url = GREENMAN_URLS['ALL_URL'] + '1'
     soup = get_soup(url)
     if soup:
         total_pages = soup.find(title='Last page').text
@@ -92,11 +93,13 @@ def full_check():
 
 def specials_check():
 
-    urls = [HOT_DEALS_URL, MIDWEEK_DEALS_URL, BARGAIN_BUCKET_URL]
+    urls = [GREENMAN_URLS['HOT_DEALS_URL'],
+            GREENMAN_URLS['MIDWEEK_DEALS_URL'],
+            GREENMAN_URLS['BARGAIN_BUCKET_URL']]
 
     for i in urls:
         soup = get_soup(i)
-        if i == HOT_DEALS_URL or i == BARGAIN_BUCKET_URL:
+        if i == GREENMAN_URLS['HOT_DEALS_URL'] or i == GREENMAN_URLS['BARGAIN_BUCKET_URL']:
             parse_hero_row(soup)
             parse_product_row(soup)
         else:
