@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from bs4 import BeautifulSoup
-import urllib2
 import re
 import time
 from random import randint
+
+from get_soup import get_soup
 
 ALL_URL = 'http://www.greenmangaming.com/search/?q=&page='
 BASE_URL = 'http://www.greenmangaming.com/'
@@ -76,31 +76,18 @@ def parse_hero_row(soup):
         print title, current_price, original_price, discount
 
 
-def get_soup(url):
-
-    req = urllib2.Request(url)
-    req.add_header('User-agent', 'hikaku-bot[0.1]@github.com/ardinor')
-    f = urllib2.urlopen(req)
-    if f.getcode() != 404:
-        html = f.read()
-        return BeautifulSoup(html)
-    else:
-        return False
-
-
 def full_check():
 
     url = ALL_URL + '1'
-    print url
     soup = get_soup(url)
     if soup:
         total_pages = soup.find(title='Last page').text
-        print total_pages
+        print 'GreenManGaming - Total pages {}'.format(total_pages)
 
     #for i in total_pages:
-        for m in soup.find_all(class_='border-container clearfix'):
-            parse_entry(m)
-            time.sleep(randint(2, 7))
+    #    for m in soup.find_all(class_='border-container clearfix'):
+    #        parse_entry(m)
+    #        time.sleep(randint(2, 7))
 
 
 def specials_check():

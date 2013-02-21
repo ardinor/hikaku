@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from bs4 import BeautifulSoup
-import urllib2
 import time
 from random import randint
+
+from get_soup import get_soup
 
 base_url = 'http://store.steampowered.com/search/?sort_by=&sort_order=ASC&page='
 
@@ -62,18 +62,6 @@ def parse_entry(entry):
     print '\n'
 
 
-def get_soup(url):
-
-    req = urllib2.Request(url)
-    req.add_header('User-agent', 'hikaku-bot[0.1]@github.com/ardinor')
-    f = urllib2.urlopen(req)
-    if f.getcode() != 404:
-        html = f.read()
-        return BeautifulSoup(html)
-    else:
-        return False
-
-
 def full_check():
 
     pages = {}
@@ -86,17 +74,17 @@ def full_check():
             search_a = search_pag.find_all('a')
             total_pages = int(search_a[len(search_a) - 2].text)
             pages[i] = total_pages
-            print 'Total pages {}'.format(total_pages)
+            print 'Steam - Total pages {}'.format(total_pages)
             time.sleep(3)
 
-    for i, j in pages.iteritems():
-        for m in xrange(1, j + 1):
-            url = i + str(m)
-            soup = get_soup(url)
-            if soup:
-                for n in soup.find_all(class_='search_result_row'):
-                    parse_entry(n)
-                    time.sleep(randint(2, 7))
+    #for i, j in pages.iteritems():
+    #    for m in xrange(1, j + 1):
+    #        url = i + str(m)
+    #        soup = get_soup(url)
+    #        if soup:
+    #            for n in soup.find_all(class_='search_result_row'):
+    #                parse_entry(n)
+    #                time.sleep(randint(2, 7))
 
 
 def specials_check():
@@ -106,7 +94,7 @@ def specials_check():
         search_pag = soup.find(class_='search_pagination_right')
         search_a = search_pag.find_all('a')
         total_pages = int(search_a[len(search_a) - 2].text)
-        print 'Total pages {}'.format(total_pages)
+        print 'Steam - Total pages {}'.format(total_pages)
 
 if __name__ == '__main__':
 
