@@ -2,10 +2,6 @@
 from get_soup import get_soup
 from config import GAMERSGATE_URLS
 
-#ALL_URL = 'http://www.gamersgate.com/games?state=available&pg='
-
-#SPECIAL_OFFER_URL = 'http://www.gamersgate.com/games?filter=offers&state=available&pg='
-
 """
 GamersGate TODO:
 
@@ -67,8 +63,3 @@ def full_check():
 def special_check():
 
     parse_page(GAMERSGATE_URLS['SPECIAL_OFFER_URL'])
-
-
-if __name__ == '__main__':
-
-    full_check()

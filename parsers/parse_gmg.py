@@ -1,17 +1,9 @@
 # -*- coding: utf-8 -*-
 import re
 import time
-from random import randint
 
 from get_soup import get_soup
 from config import GREENMAN_URLS
-
-#ALL_URL = 'http://www.greenmangaming.com/search/?q=&page='
-#BASE_URL = 'http://www.greenmangaming.com/'
-
-#HOT_DEALS_URL = 'http://www.greenmangaming.com/hot-deals/'
-#MIDWEEK_DEALS_URL = 'http://www.greenmangaming.com/midweek-deals/'
-#BARGAIN_BUCKET_URL = 'http://www.greenmangaming.com/bargain-bucket/'
 
 #hot_deals = http://www.greenmangaming.com/games/browse/hot-deals/?page=3   ???
 
@@ -104,10 +96,3 @@ def specials_check():
             parse_product_row(soup)
         else:
             parse_product_row(soup)
-        time.sleep(randint(2, 7))
-
-
-if __name__ == '__main__':
-
-    #full_check()
-    specials_check()

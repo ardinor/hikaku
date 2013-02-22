@@ -1,15 +1,8 @@
 # -*- coding: utf-8 -*-
 import time
-from random import randint
 
 from get_soup import get_soup
 from config import STEAM_URLS
-
-#base_url = 'http://store.steampowered.com/search/?sort_by=&sort_order=ASC&page='
-
-#GAMES_URL = 'http://store.steampowered.com/search/?category1=998&page='
-#DLC_URL = 'http://store.steampowered.com/search/?category1=21&page='
-#SPECIALS_URL = 'http://store.steampowered.com/search/?specials=1&page='
 
 
 def parse_entry(entry):
@@ -84,8 +77,3 @@ def specials_check():
         search_a = search_pag.find_all('a')
         total_pages = int(search_a[len(search_a) - 2].text)
         print 'Steam - Total pages {}'.format(total_pages)
-
-if __name__ == '__main__':
-
-    full_check()
-    specials_check()
